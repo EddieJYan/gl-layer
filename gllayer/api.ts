@@ -17,6 +17,7 @@
         },
 
         shotCut: function (type: string): string {
+            
             if (!Cb.isLoadEnd) { //加载锁
                 return;
             }
@@ -36,7 +37,7 @@
             let moveSp = 500;//移动的快
             let igroup;
 
-            let whoOpacity = "";
+
             let materialObj: THREE.MeshPhongMaterial;
             if (!this.meshs["floor01"]) {
                 igroup = glApi.getGroupByName(Cb.scene, "Floor_01");
@@ -65,14 +66,14 @@
             }
             let self = this;
             materialObj = glApi.getAllMeshByGroup(self.meshs.floor01.group)[0].material.clone();
-            let iAlpha = materialObj.opacity;
+console.info(type)
             //Cb就是总控制台
             switch (type) {
-                case "building":
+                case COMMUNICATE_NAME.BUILDING_01:
                     self.isAnimateEnd = false;
                     recation();
                     break;
-                case "f01":
+                case COMMUNICATE_NAME.Floor_01:
                     self.isAnimateEnd = false;
                     cameraIn();
                     limited = 100;
@@ -88,10 +89,10 @@
 
                     self.meshs.floor02.isMove = true;
                     self.meshs.floor03.isMove = true;
-                    whoOpacity = "02";
+   
                     setTimeout(function () { animas() }, 1000);
                     break;
-                case "f02":
+                case COMMUNICATE_NAME.Floor_02:
                     self.isAnimateEnd = false;
                     cameraIn();
                     limited = 100;
@@ -108,11 +109,11 @@
                     self.meshs.floor02.isMove = false;
                     self.meshs.floor03.isMove = true;
 
-                    whoOpacity = "03";
+
                     setTimeout(function () { animas() }, 1000);
 
                     break;
-                case "f03":
+                case COMMUNICATE_NAME.Floor_03:
                     self.isAnimateEnd = false;
                     recation();
                     break;
@@ -288,12 +289,24 @@ var glApi = {
 }
 
 
+var config = {
+    "name":{
+        "floor":{
+            "f1":"f01",
+            "f2":"f02",
+            "f3":"f03"
+        }
+    }
+}
 
 
-enum SHOW_STATE{
+//对接外层的通信命名设置
+enum COMMUNICATE_NAME{
     OVERALL_VIEW =  "overallview",
-    BUILDING = "building", // 加上 特定建筑ID
-    FLOOR = "f" //f 加上 楼层number
+    BUILDING_01 = "building", 
+    Floor_01 = "f01",
+    Floor_02 = "f02",
+    Floor_03 = "f03"
 }
 
 enum POST_NAME {

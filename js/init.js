@@ -35,7 +35,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             let limited = 100;
             let moveSp = 500;
             let igroup;
-            let whoOpacity = "";
             let materialObj;
             if (!this.meshs["floor01"]) {
                 igroup = glApi.getGroupByName(Cb.scene, "Floor_01");
@@ -64,13 +63,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             }
             let self = this;
             materialObj = glApi.getAllMeshByGroup(self.meshs.floor01.group)[0].material.clone();
-            let iAlpha = materialObj.opacity;
+            console.info(type);
             switch (type) {
-                case "building":
+                case COMMUNICATE_NAME.BUILDING_01:
                     self.isAnimateEnd = false;
                     recation();
                     break;
-                case "f01":
+                case COMMUNICATE_NAME.Floor_01:
                     self.isAnimateEnd = false;
                     cameraIn();
                     limited = 100;
@@ -83,10 +82,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                     }
                     self.meshs.floor02.isMove = true;
                     self.meshs.floor03.isMove = true;
-                    whoOpacity = "02";
                     setTimeout(function () { animas(); }, 1000);
                     break;
-                case "f02":
+                case COMMUNICATE_NAME.Floor_02:
                     self.isAnimateEnd = false;
                     cameraIn();
                     limited = 100;
@@ -99,10 +97,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                     }
                     self.meshs.floor02.isMove = false;
                     self.meshs.floor03.isMove = true;
-                    whoOpacity = "03";
                     setTimeout(function () { animas(); }, 1000);
                     break;
-                case "f03":
+                case COMMUNICATE_NAME.Floor_03:
                     self.isAnimateEnd = false;
                     recation();
                     break;
@@ -243,12 +240,23 @@ var glApi = {
         return "noType";
     }
 };
-var SHOW_STATE;
-(function (SHOW_STATE) {
-    SHOW_STATE["OVERALL_VIEW"] = "overallview";
-    SHOW_STATE["BUILDING"] = "building";
-    SHOW_STATE["FLOOR"] = "f";
-})(SHOW_STATE || (SHOW_STATE = {}));
+var config = {
+    "name": {
+        "floor": {
+            "f1": "f01",
+            "f2": "f02",
+            "f3": "f03"
+        }
+    }
+};
+var COMMUNICATE_NAME;
+(function (COMMUNICATE_NAME) {
+    COMMUNICATE_NAME["OVERALL_VIEW"] = "overallview";
+    COMMUNICATE_NAME["BUILDING_01"] = "building";
+    COMMUNICATE_NAME["Floor_01"] = "f01";
+    COMMUNICATE_NAME["Floor_02"] = "f02";
+    COMMUNICATE_NAME["Floor_03"] = "f03";
+})(COMMUNICATE_NAME || (COMMUNICATE_NAME = {}));
 var POST_NAME;
 (function (POST_NAME) {
     POST_NAME["CLICK"] = "mouseClick";

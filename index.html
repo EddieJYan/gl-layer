@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>mcs</title>
+    <style>
+        body {
+            background-color: black;
+        }
+
+        iframe {
+            position: absolute;
+            width: 70%;
+            height: 90%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: none;
+            padding: 0;
+            margin: auto;
+        }
+
+        .cloud-layer {
+            position: absolute;
+            width: 70%;
+            height: 90%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: none;
+            padding: 0;
+            margin: auto;
+            z-index: 9;
+            background-color: black;
+        }
+
+        .cloud-layerIn{
+            animation: in 1s;
+            animation-fill-mode: forwards;
+        }
+        .cloud-layerOut {
+            animation: out 1s;
+            animation-fill-mode: forwards;
+        }
+                
+        @keyframes in {
+            0% {
+                opacity: 0;
+                visibility: hidden;
+                transform: scale(3)
+                
+            }
+            50%{
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+                visibility: visible;
+                transform: scale(1)
+            }
+        }
+        @keyframes out {
+            0% {
+                opacity: 1;
+                visibility: visible;
+                transform: scale(1)
+            }
+            50%{
+                opacity: 0;
+            }
+            100% {
+                opacity: 0;
+                visibility: hidden;
+                transform: scale(3)
+            }
+        }
+
+
+        .cloud-layer img {
+            position: absolute;
+            width: 50%
+        }
+
+        .cloud-layer img:nth-of-type(1) {
+            animation: cloud 40s 0s infinite;
+        }
+
+        .cloud-layer img:nth-of-type(2) {
+            width: 100%;
+            animation: cloud 50s 0s infinite;
+            right: 0;
+        }
+
+        .cloud-layer img:nth-of-type(3) {
+            width: 70%;
+            animation: cloud 30s 0s infinite;
+            right: 0;
+            bottom: 0
+        }
+
+        @keyframes cloud {
+            0% {
+                transform: translateX(0px);
+            }
+
+            50% {
+                transform: translateX(50px);
+            }
+
+            100% {
+                transform: translateX(0px);
+            }
+        }
+
+        h1 {
+            font-size: 20vw;
+            color: #fff;
+            animation: ready 5s infinite;
+            position: absolute;
+            text-align: center;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+        }
+
+        @keyframes ready {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .wrap {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            top:0;
+            left:0;
+        }
+        body{
+            overflow:hidden;
+        }
+    </style>
+
+</head>
+
+<body>
+
+        <iframe name="web3d" src="gl.html"></iframe>
+
+        <div id="allp">
+            <button id="overallview" class="tabCamera">全景</button>
+            <button id="building" class="tabCamera">楼宇</button>
+            <button id="f1" class="tabCamera">楼宇一层</button>
+            <button id="f2" class="tabCamera">楼宇二层</button>
+            <button id="f3" class="tabCamera">楼宇三层</button>
+        </div>
+
+        <div id="apps" class="cloud-layer">
+            <h1>
+                全屏
+            </h1>
+            <img src="images/cloud01.png" alt="">
+            <img src="images/cloud02.png" alt="">
+            <img src="images/cloud03.png" alt="">
+        </div>
+
+        <p id="msgs" style="width:15%;right:0;top:0;position: absolute;color:#fff"></p>
+
+    
+    <script>
+        let isMoveOutIframe = false;
+
+
+        window.frames["web3d"].addEventListener("mouseover", function () {
+            if (this.gl) {
+                this.gl.autoRotate(false);
+            }
+        })
+
+        window.frames["web3d"].addEventListener("mouseout", function (e) {
+            if (this.gl) {
+                this.gl.autoRotate(true);
+                this.gl.reSel()
+            }
+        })
+
+
+        document.querySelectorAll(".tabCamera").forEach(function (elem) {
+            elem.addEventListener("click", function (e) {
+                if (e.target.id === "overallview") {
+                    apps.classList.remove("cloud-layerOut");
+                    apps.classList.add("cloud-layerIn");
+                    
+                } else {
+                    apps.classList.remove("cloud-layerIn");
+                    apps.classList.add("cloud-layerOut");
+                    if (window.frames["web3d"].gl) {
+                        window.frames["web3d"].gl.shotCut(e.target.id);
+                    }
+                }
+            })
+        })
+
+
+        function glClickHandlar(data) {
+            logs(" 您点击了:"+data)
+        }
+
+        function logs(str){            
+            let i = 0 ;
+            msgs.innerHTML += "<br/>";
+            let d = setInterval(function(){
+                if(i>= str.length-1){
+                    
+                    clearInterval(d);
+                }
+                msgs.innerHTML += str[i];
+                i++
+            },100)
+            
+        }
+
+        function getGlData(name, data) {
+            
+            switch (name) {
+                case "mouseClick": glClickHandlar(data); break;
+                case "ready": logs("ready");break;
+            }
+        }
+    </script>
+</body>
+
+</html>

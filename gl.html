@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Example 08.08 - Load collada model </title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #webgl-output {
+            background-image: url('./images/background.jpg');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+
+        #label-box {
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            pointer-events: none;
+        }
+
+        #label {
+            position: absolute;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.6);
+            line-height: 1;
+            border-radius: 5px;
+            z-index: 999;
+        }
+
+        .devtools {
+            position: absolute;
+            background:#fff;
+            right: 0;
+            top: 0;
+            border: 1px solid red;
+            padding: 10px 30px;
+        }
+    </style>
+
+
+
+
+</head>
+
+<body id="webgl-output">
+    <div ></div>
+
+    <div id="label-box" style="display: none">
+        <div id="label"></div>
+    </div>
+
+</body>
+<script type="text/javascript" src="three/three.js"></script>
+<script type="text/javascript" src="three/ColladaLoader.js"></script>
+<script type="text/javascript" src="three/OrbitControls.js"></script>
+
+<script type="text/javascript" src="js/dat.gui.js"></script>
+<script type="text/javascript" src="js/Stats.js"></script>
+<script type="text/javascript" src="js/util.js"></script>
+
+
+<script type="text/javascript" src="js/init.js"></script>
+
+
+</html>
